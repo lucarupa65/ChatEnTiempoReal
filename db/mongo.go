@@ -3,6 +3,7 @@ package db
 
 import (
 	"context"
+	"log"
 	"sync"
 	"time"
 
@@ -28,14 +29,13 @@ func ObtenerInstanciaMongoDB(cadenaConexion, nombreBaseDatos string) (*MongoDB, 
 
 		client, err := mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {
-			// Manejar el error
-			return
+			log.Fatal("Error al conetarce a la base de datos:", err)
 		}
 
 		err = client.Ping(context.TODO(), nil)
 		if err != nil {
 			// Manejar el error
-			return
+			log.Fatal("Error al conetarce a la base de datos:", err)
 		}
 
 		instance = &MongoDB{

@@ -6,9 +6,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/luisk6510/ChatEnTiempoReal/db"
-	"github.com/luisk6510/ChatEnTiempoReal/internal/repository"
-	"github.com/luisk6510/ChatEnTiempoReal/internal/service"
 	"github.com/luisk6510/ChatEnTiempoReal/web/handler"
 )
 
@@ -25,25 +22,19 @@ func NewApplication(userHandler *handler.UserHandler) *Application {
 }
 
 // Run inicia la aplicación.
-func (app *Application) Run(mongoDB *db.MongoDB) {
+func (app *Application) Run() {
 	// Inicializar y configurar servicios, repositorios, etc.
 	// ...
 
 	// Iniciar el servidor HTTP
-	app.iniciarServidor(mongoDB)
+	app.iniciarServidor()
 }
 
 // iniciarServidor inicia el servidor HTTP.
-func (app *Application) iniciarServidor(mongoDB *db.MongoDB) {
-	// Inicializar y configurar servicios, repositorios, etc.
-	userRepository := repository.NewUserRepository(mongoDB)
-	userService := service.NewUserService(*userRepository)
-
-	// Crear el controlador de usuario
-	userHandler := handler.NewUserHandler(userService)
+func (app *Application) iniciarServidor() {
 
 	// Configurar rutas HTTP
-	http.HandleFunc("/usuarios", userHandler.CrearUsuarioHandler)
+	http.HandleFunc("/usuarios", app.UserHandler.CrearUsuarioHandler)
 
 	// Iniciar el servidor
 	puerto := 8080
