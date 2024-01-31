@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/luisk6510/ChatEnTiempoReal/config"
 	"github.com/luisk6510/ChatEnTiempoReal/web/handler"
 )
 
@@ -22,23 +23,22 @@ func NewApplication(userHandler *handler.UserHandler) *Application {
 }
 
 // Run inicia la aplicación.
-func (app *Application) Run() {
+func (app *Application) Run(serverConfig config.ServerConfig) {
 	// Inicializar y configurar servicios, repositorios, etc.
 	// ...
 
 	// Iniciar el servidor HTTP
-	app.iniciarServidor()
+	app.iniciarServidor(serverConfig)
 }
 
 // iniciarServidor inicia el servidor HTTP.
-func (app *Application) iniciarServidor() {
+func (app *Application) iniciarServidor(serverConfig config.ServerConfig) {
 
 	// Configurar rutas HTTP
 	http.HandleFunc("/usuarios", app.UserHandler.CrearUsuarioHandler)
 
 	// Iniciar el servidor
-	puerto := 8080
-	direccion := fmt.Sprintf(":%d", puerto)
-	fmt.Printf("Servidor iniciado en http://localhost:%d\n", puerto)
+	direccion := fmt.Sprintf(":%d", serverConfig.Port)
+	fmt.Printf("Servidor iniciado en http://localhost:%d\n", serverConfig.Port)
 	log.Fatal(http.ListenAndServe(direccion, nil))
 }

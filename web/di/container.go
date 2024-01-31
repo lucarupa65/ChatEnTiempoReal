@@ -18,7 +18,7 @@ func BuildContainer() *dig.Container {
 	Container = dig.New()
 
 	// Configurar la conexión a MongoDB
-	cadenaConexion := "mongodb://localhost:27017"
+	cadenaConexion := "mongodb://usuario_admin:contraseña_secreta@localhost:27017/mi_database"
 	nombreBaseDatos := "miappdb"
 	mongoDB, err := db.ObtenerInstanciaMongoDB(cadenaConexion, nombreBaseDatos)
 	if err != nil {
